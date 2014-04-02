@@ -1,0 +1,81 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="s.css" />
+<script>
+function load() {
+	var pinx = document.getElementById("pinx");
+	var f = document.getElementById("pinselect");
+	var td = document.getElementsByTagName('td');
+	var fSize;
+	if (window.innerHeight > window.innerWidth) {
+		fSize=innerWidth;
+	} else {
+		fSize=innerHeight;
+	}
+	fSize=fSize * 0.2+"px";
+	document.getElementById('btngo').disabled=true;
+	f.pin.value="";
+	for (var i = 0, length = td.length; i < length; i++) {
+		td[i].style.fontSize=fSize;
+	}
+	pinx.innerHTML="";
+	pinx.style.fontSize=fSize;
+	
+}
+function input(e) {
+	var pinx = document.getElementById("pinx");
+	if (pinx.innerHTML.length<4){
+		pinx.innerHTML = pinx.innerHTML + "*";
+		var pin = document.getElementById("pin");
+		pin.value = pin.value + e;
+	}
+	go();
+}
+function del() {
+	var pinx = document.getElementById('pinx');
+	pinx.innerHTML = pinx.innerHTML.substr(0, pinx.innerHTML.length - 1);
+	var pin = document.getElementById('pin');
+	pin.value = pin.value.substr(0, pin.value.length - 1);
+	go();
+}
+function go() {
+	if (document.getElementById('pinx').innerHTML.length==4) {
+		document.getElementById('btngo').disabled=false;
+	} else {
+		document.getElementById('btngo').disabled=true;
+	}
+}
+</script>
+</head>
+<body onload='load();'>
+<form id="pinselect" method="post" action="/cgi-bin/main.py">
+	<input id="pin" type="hidden" value="" />
+</form>
+</table>
+<table width=100% height=100% border=1>
+<tr>
+<td colspan=3 id="pinx" height="20%"></td>
+</tr>
+<tr>
+<td onclick="input('1');">1</td>
+<td onclick="input('2');">2</td>
+<td onclick="input('3');">3</td>
+</tr>
+<tr>
+<td onclick="input('4');">4</td>
+<td onclick="input('5');">5</td>
+<td onclick="input('6');">6</td>
+</tr>
+<tr>
+<td onclick="input('7');">7</td>
+<td onclick="input('8');">8</td>
+<td onclick="input('9');">9</td>
+</tr>
+<tr>
+<td onclick="input('0');">0</td>
+<td onclick="del();">bs</td>
+<td id="btngo" onclick="document.forms[0].submit();">go</td>
+</tr>
+</table>
+</div>
+</body>
+</html>
