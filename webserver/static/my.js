@@ -1,18 +1,18 @@
 function load() {
-	var w,h;
+	var w,big,med;
 	var oDoc = document.documentElement;
 	w=oDoc.clientWidth;
-	h = w*0.1;
-	p = w*0.025;
+	big = w*0.2;
+	med = w*0.05;
 	var tag = document.getElementsByClassName('big');
 	for (var i=0;i<tag.length;i++) {
-		tag.item(i).style.fontSize=h+"px"; 
+		tag.item(i).style.fontSize=big+"px"; 
 	};
 	var tag=document.getElementsByClassName('med');
 	for (i=0;i<tag.length;i++) {
-		tag.item(i).style.fontSize=p+"px"; 
+		tag.item(i).style.fontSize=med+"px"; 
 	};
-	window.alert("w="+w+",p="+p+",h="+h);
+	//window.alert("w="+w+",p="+p+",h="+h);
 	var tag1=document.getElementById('tsgraph1');
 	if (tag1) {
 		tag1.width=w*0.8;

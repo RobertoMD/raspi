@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+	<p class="med">light 1 is <b>{{s1}}</b></p>
+	{% if s1== 'on' %}
+	<p class="med"><a class="med" href="/light <b>turn off</b></p>
+	{% else %}
+	<p class="med"><a class="med" href="/light <b>turn on</b></p>
+	{% endif %}
+	<p class="med"><a class="med" href="/">home</a></p>
+	<p class="med">{{time}}</p>
+{% endblock %}

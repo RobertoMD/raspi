@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<head>
-	<title>La casa de los juguetes</title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='s.css')}}" />
-	<link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}" />
-	<script language="JavaScript" src="{{url_for('static', filename='my.js')}}"></script>
-</head>
-<body onload='load();'>
-	<p class="big"><a href="/main">temp</a></p>
-	<p class="big"><a href="/multi">multi</a></p>
-	<p class="big"><a href="/conf">conf</a></p>
+{% extends "base.html" %}
+{% block content %}
+	<p class="big"><a class="big" href="/temp">temp</a></p>
+	<p class="big"><a class="big" href="/multi">multi</a></p>
+	<p class="big"><a class="big" href="/light">light</a></p>
+	<p class="big"><a class="big" href="/conf">conf</a></p>
 	<p class="med">{{time}}</p>
-</body>
-</html>
+{% endblock %}

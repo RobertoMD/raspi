@@ -36,7 +36,7 @@ def getTemperature(sensor):
 #AUTH functions
 ######################
 def check_auth(username,password):
-	if username=='guest' and password=='1234':
+	if username=='guest' and password=='8022':
 		return True
 	return password=='1196' 
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+	<title>La casa de los juguetes</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='s.css')}}" />
+	<link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}" />
+	<script language="JavaScript" src="{{url_for('static', filename='my.js')}}"></script>
+<!--bootstrap-->
+	<link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet" media="screen">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--/bootstrap-->
+</head>
+<!-- <body onload='load();'> -->
+{% block content %}{% endblock %}
+</body>
+</html>
