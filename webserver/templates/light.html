@@ -1,11 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
-	<p class="med">light 1 is <b>{{s1}}</b></p>
-	{% if s1== 'on' %}
-	<p class="med"><a class="med" href="/light <b>turn off</b></p>
+<body>
+<div class="container">
+        <div class="jumbotron">
+                <h1>Luces</h1>
+                <p class="lead">Apaga la luz que gasta!. Son las {{time}}</p>
+                <p><a class="btn btn-lg btn-success" href="/" role="button">Inicio</a></p>
+        </div>
+	<form method="POST" action="/light">
+	<input type="hidden" name="line" value="R1LINE">
+	<h2>La luz 1 está: {{s1}}. </h2>
+	<p>
+	{% if s1 == 'off' %}
+	<input type="hidden" name="value" value="on">
+	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Encender" />
 	{% else %}
-	<p class="med"><a class="med" href="/light <b>turn on</b></p>
+	<input type="hidden" name="value" value="off">
+	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Apagar" />
 	{% endif %}
-	<p class="med"><a class="med" href="/">home</a></p>
-	<p class="med">{{time}}</p>
+	</p>
+	</form>
+</div>
 {% endblock %}

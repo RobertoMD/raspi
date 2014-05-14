@@ -1,17 +1,23 @@
 <!DOCTYPE html>
+<html>
 <head>
 	<title>La casa de los juguetes</title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='s.css')}}" />
 	<link rel="shortcut icon" href="{{url_for('static', filename='favicon.ico')}}" />
-	<script language="JavaScript" src="{{url_for('static', filename='my.js')}}"></script>
+<!--	<script language="JavaScript" src="{{url_for('static', filename='js/my.js')}}"></script> -->
 <!--bootstrap-->
-	<link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet" media="screen">
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+	<link href="{{url_for('static',filename='css/font-awesome.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+	<link href="{{url_for('static',filename='custom.css')}}" rel="stylesheet">
+	<!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
 <!--/bootstrap-->
 </head>
-<!-- <body onload='load();'> -->
-{% block content %}{% endblock %}
+{% block content %}
+{% endblock %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery-min.js"></script>
+	<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
 </body>
 </html>

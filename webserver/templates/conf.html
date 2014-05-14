@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-	<p class="big">cloud is <b>{{s1}}</b></p>
-	<p class="big"><a class="big" href="/">home</a></p>
-	<p class="med">{{time}}</p>
+
+<body>
+	<div class="container">
+	<div class="jumbotron">
+		<h1>Configuración</h1>
+		<p class="lead">Lo de toquetear por aquí y por allá. Son las {{time}}</p>
+		<p><a class="btn btn-lg btn-success" href="/" role="button">Inicio</a></p>
+	</div>
+	<div class="row marketing">
+		<div class="col-md-4">
+			<h2>Cloud service</h2>
+			<p>Estado del proceso de envío de información de temperatura a <b>ThingSpeak.com</b>: <span class="badge">{{s1}}</span></p>
+		</div>
+		<div class="col-md-4">
+			<h2>Lorem ipsum</h2>
+			<p>De momento no hay nada más.</p>
+		</div>
+	</div>
+</div> <!-- /container -->
 {% endblock %}

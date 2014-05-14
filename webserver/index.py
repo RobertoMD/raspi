@@ -6,23 +6,41 @@ import datetime
 import util
 import subprocess
 import RPi.GPIO as GPIO
-from flask import Flask,render_template
+from flask import Flask,render_template,request
 from util import authenticate, check_auth, requires_auth
 
+#Flask application
+app=Flask(__name__)
+app.config.from_object('config')
+
+#GPIO INIT
 #GPIO init on pin 11 (GPIO17)
-R1LINE=11
 GPIO.setwarnings(False)
 GPIO.cleanup()
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(R1LINE,GPIO.OUT)
+# First relay
+GPIO.setup(app.config['R1LINE'],GPIO.OUT)
 
-app=Flask(__name__)
 now=datetime.datetime.now().strftime('%d/%m/%Y %H:%M')
+
 @app.route("/")
 @requires_auth
 def index():
-	tData={ 'time':now }
+	# temperature
+	fTemp1=util.getTemperature(0)
+	temp1="%2.1f" % fTemp1
+	# light
+	s1=util.getLight(app.config['R1LINE'])
+	tData={
+		'temp1':temp1,
+		's1':s1,
+		'time':now 
+	}
 	return render_template('index.html',**tData)
+
+@app.route("/test")
+def test():
+	return render_template('test.html')
 
 @app.route("/temp")
 @requires_auth
@@ -32,7 +50,7 @@ def temp():
 	if fTemp1 is None or fTemp2 is None:
 		return render_template('no-w1.html')
 	else:
-		#now=datetime.datetime.now().strftime('%d/%m/%Y %H:%M')
+		now=datetime.datetime.now().strftime('%d/%m/%Y %H:%M')
 		temp1="%2.1f" % fTemp1
 		temp2="%2.1f" % fTemp2
 		tData={
@@ -66,15 +84,22 @@ def multi():
 @app.route("/light")
 @requires_auth
 def light():
-	cs=GPIO.input(R1LINE)
-	#GPIO.output(R1LINE, not cs)
-	s1='off' if cs else 'on'
+	#GPIO.output(app.config['R1LINE'], not cs)
+	s1=util.getLight(app.config['R1LINE'])
 	tData={
 		's1':s1,
 		'time':now
 	}
+	if request.method == 'POST':
+		value=request.form['value']
+		line=request.form['line'] 
+		if line not in app.config['RELAYS'] or value not in {'on','off'}:
+			flash('Internal error. No lights changed.')
+			return redirect(url_for('/'))
+		#s=util.getLight(line)
+		s=True if set=='on' else False
+		util.setLight(line,value)
 	return render_template('light.html',**tData)
-
 
 if __name__=="__main__":
 	app.run(host='0.0.0.0',port=80,debug=True)

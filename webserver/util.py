@@ -1,11 +1,13 @@
-#read DS18B20device
+#!/usr/bin/python
 import os
 import time
+import RPi.GPIO as GPIO
 from functools import wraps
 from flask import request, Response
 
 DEVPATH='/sys/bus/w1/devices/'
 DEVICES=['28-000003c63391','28-000003be20b5']
+R1LINE=11
 
 ######################
 def getContent(file):
@@ -33,6 +35,15 @@ def getTemperature(sensor):
 			return None
 	return float(lines[1].split('=')[1])/1000.
 
+######################
+def getLight(line):
+	cs=GPIO.input(line)
+	return 'on' if cs else 'off'
+
+######################
+def setLight(line,value):
+	GPIO.output(line,value)
+	return
 #AUTH functions
 ######################
 def check_auth(username,password):

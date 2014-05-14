@@ -1,8 +1,51 @@
 {% extends "base.html" %}
 {% block content %}
-	<p class="big"><a class="big" href="/temp">temp</a></p>
-	<p class="big"><a class="big" href="/multi">multi</a></p>
-	<p class="big"><a class="big" href="/light">light</a></p>
-	<p class="big"><a class="big" href="/conf">conf</a></p>
-	<p class="med">{{time}}</p>
+<body>
+	<div class="container">
+<!--
+		<div class="header">
+		<ul class="nav nav-pills pull-right">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+		</ul>
+		<h3 class="text-muted">La casa de los juguetes</h3>
+		</div>
+-->
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+			<li>{{ message }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+{% endwith %}
+	<div class="jumbotron">
+		<h1>La casa de los juguetes</h1>
+		<p class="lead">A mi me gustan todas las casas, pero en especial la de los juguetes.</p>
+<!--
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+-->
+	</div>
+	<div class="row marketing">
+        	<div class="col-lg-6">
+			<p><a href="/temp"><button type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-home fa-fw"></i> Temperatura</button></a></p>
+			<p>Temperatura en el salón de casa <span class="badge">{{temp1}}</span> &deg;C</p>
+
+			<p><a href="/multi"><button type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-clock-o"></i> Histórico</button></a></p>
+			<p>Histórico de temperaturas en el salón, con gráfica molona.</p>
+
+			<p><a href="/light"><button type="button" class="btn btn-lg btn-warning btn-block"><i class="fa fa-lightbulb-o"></i> Luces</button></a></p>
+			<p>Luces e iluminación. La luz del salón está <span class='badge'>{{s1}}</span></p>
+		</div>
+		<div class="col-lg-6">
+			<p><a href="/conf"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-gear"></i> Configuración</button></a></p>
+			<p>Pues eso.</p>
+		</div>
+	</div>
+	<div class="footer">
+	<p>&copy; 2014</p>
+	</div>
+</div> <!-- /container -->
 {% endblock %}
