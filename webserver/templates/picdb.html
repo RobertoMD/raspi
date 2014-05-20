@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+<div class="container">
+	<div class="jumbotron">
+		<h1>Luces</h1>
+		<p class="lead">Archivo de imágenes</p>
+		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a>
+		<a class="btn btn-lg btn-default" href="/pic" role="button"><i class="fa fa-camera"></i>&nbsp;Imagen actual</a></p>
+	</div>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success">{{ message }}</div>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+{% for file in files %}
+	<form name='form{{loop.index}}' method='post' action='/picdb'>
+		<input type="hidden" name="action" value='delete' />
+		<input type="hidden" name="file" value='{{file}}' />
+		<div class="row">
+			<div class="thumbnail">
+				<img src="{{url_for('static',filename='img/h/'+file)}}" class="img-thumbnail" alt="..." />
+					<p><input type="submit" class="btn btn-sm btn-danger" role="button" value="Borrar" /></p>
+			</div>
+		</div>
+	</form>
+{% else %}
+	<p>No hay fotos archivadas.</p>
+{% endfor %}
+</div>
+{% endblock %}
