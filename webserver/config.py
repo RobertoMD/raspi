@@ -2,10 +2,7 @@
 # -*- coding: utf-8 -*-
 LABEL_TEMP1 = u'Salón'
 LABEL_TEMP2 = u'Salón2'
-# Relay list
-RELAYS={'R1LINE'}
-# Relay status
-RSTATUS={'ON','OFF'}
+# Lines (relays) list
+LINES={'R1LINE':11}
 # Line for first relay
-R1LINE = 11
-R1NAME = u'Salón'
+LINENAMES={'R1LINE':u'del salón'}

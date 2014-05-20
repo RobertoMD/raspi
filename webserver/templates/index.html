@@ -37,7 +37,13 @@
 			<p>Histórico de temperaturas en el salón, con gráfica molona.</p>
 
 			<p><a href="/light"><button type="button" class="btn btn-lg btn-warning btn-block"><i class="fa fa-lightbulb-o"></i> Luces</button></a></p>
-			<p>Luces e iluminación. La luz del salón está <span class='badge'>{{s1}}</span></p>
+			{% if s1 =='on' %}
+			<p>Luces e iluminación. La luz del salón está <span class='badge'>encendida</span>.</p>
+			{% else %}
+			<p>Luces e iluminación. La luz del salón está <span class='badge'>apagada</span>.</p>
+			{% endif %}
+			<p><a href="/pic"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-lightbulb-o"></i> Foto</button></a></p>
+			<p>Qué está pasando ahora mismo en el salón?</p>
 		</div>
 		<div class="col-lg-6">
 			<p><a href="/conf"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-gear"></i> Configuración</button></a></p>

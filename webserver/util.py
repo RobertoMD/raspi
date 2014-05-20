@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import time
+import subprocess
 import RPi.GPIO as GPIO
 from functools import wraps
 from flask import request, Response
@@ -44,6 +45,20 @@ def getLight(line):
 def setLight(line,value):
 	GPIO.output(line,value)
 	return
+
+######################
+def takePicture():
+	ps=subprocess.Popen('fswebcam -r 352x288 '+os.getcwd()+'/static/img/still.jpg', shell=True, stdout=subprocess.PIPE)
+	return
+
+######################
+def isCloudActive():
+	ps=subprocess.Popen("ps -ef | grep '/usr/bin/python /home/pi/cloud/ts.py' | grep -v grep | wc -l", shell=True, stdout=subprocess.PIPE)
+	res=ps.stdout.readline().rstrip()
+	if res == '1':
+		return True
+	return False
+
 #AUTH functions
 ######################
 def check_auth(username,password):
@@ -64,4 +79,3 @@ def requires_auth(f):
 			return authenticate()
 		return f(*args, **kwargs)
 	return decorated
-
