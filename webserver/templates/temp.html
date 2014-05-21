@@ -5,27 +5,27 @@
 <script language="JavaScript">
 function setTSUrl(chart) {
 	var w,h;
-	w=window.innerWidth*0.6;
-	h=w/1.5;
+	w=window.innerWidth*0.9;
+	h=w/1.3;
 	g1=document.getElementById('tsgraph1')
 	g1.src="http://api.thingspeak.com/channels/11489/charts/1?width="+w+"&height="+h+"&average=10&results=600&days=5&dynamic=false&xaxis=Fecha&title=Temperatura";
 	g1.width=w;
 	g1.height=h;
 	g2=document.getElementById('tsgraph2')
-	g2.src="http://api.thingspeak.com/channels/11489/charts/2?width="+w+"&height="+h+"&average=10&results=600&days=5&dynamic=false&xaxis=Fecha&title=Temperatura";
+	g2.src="http://api.thingspeak.com/channels/11489/charts/2?width="+w+"&height="+h+"&days=5&dynamic=false&xaxis=Fecha&title=Temperatura";
 	g2.width=w;
 	g2.height=h;
 }
 </script>
 <div class="container">
         <div class="jumbotron">
-                <h1>Temperaturas</h1>
-                <p class="lead">Fresquillo en invierno, templadico en verano. Son las {{time}}</p>
-                <p><a class="btn btn-lg btn-success" href="/" role="button">Inicio</a></p>
+                <h1>Temperatura</h1>
+                <p class="lead">Tirando a fresco</p>
+                <p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a></p>
         </div>
-	<h2>Salón 1: {{temp1}} &deg;C</h2>
-	<h2>Salón 2: {{temp2}} &deg;C</h2>
-	<iframe id="tsgraph1" width="450" height="260" src='#'></iframe>
-	<iframe id="tsgraph2" width="450" height="260" src='#'></iframe>
+	<h3>Salón 1: {{temp1}} &deg;C</h3>
+	<h3>Salón 2: {{temp2}} &deg;C</h3>
+	<iframe id="tsgraph1" width="450" height="450" src='#'></iframe>
+	<iframe id="tsgraph2" width="450" height="450" src='#'></iframe>
 </div>
 {% endblock %}

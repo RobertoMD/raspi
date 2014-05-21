@@ -4,7 +4,7 @@ import time
 import subprocess
 import RPi.GPIO as GPIO
 from functools import wraps
-from flask import request, Response
+from flask import request,Response,g
 
 DEVPATH='/sys/bus/w1/devices/'
 DEVICES=['28-000003c63391','28-000003be20b5']
@@ -48,7 +48,7 @@ def setLight(line,value):
 
 ######################
 def takePicture():
-	ps=subprocess.Popen('fswebcam -r 352x288 '+os.getcwd()+'/static/img/still.jpg', shell=True, stdout=subprocess.PIPE)
+	ps=subprocess.Popen('fswebcam -r 640x480 '+os.getcwd()+'/static/img/still.jpg -font :14', shell=True, stdout=subprocess.PIPE)
 	return
 
 ######################
@@ -79,3 +79,22 @@ def requires_auth(f):
 			return authenticate()
 		return f(*args, **kwargs)
 	return decorated
+#----------------------------------------------------------------
+#Database connect
+def connect_db():
+	rv=sqlite3.connect(app.config['DATABASE'])
+	rv.row_factory=sqlite3.Row
+	return rv
+#----------------------------------------------------------------
+#Database init
+def get_db():
+	if not hasattr(g,'sqlite_db'):
+		g.sqlite_db=connect_db()
+	return g.sqlite_db
+
+#----------------------------------------------------------------
+@app.teardown_appcontext
+def close_db():
+	if hasattr(g,'sqlite_db'):
+		g.sqlite_db.close()
+

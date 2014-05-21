@@ -4,17 +4,17 @@
 <div class="container">
         <div class="jumbotron">
                 <h1>Luces</h1>
-                <p class="lead">Apaga la luz que gasta!. Son las {{time}}</p>
+                <p class="lead">Apaga la luz que gasta!</p>
                 <p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a></p>
         </div>
 	<form method="POST" action="/light">
 	<input type="hidden" name="line" value="R1LINE">
 	{% if s1 == 'off' %}
-	<h2>La luz está apagada.</h2>
+	<h3>La luz está apagada.</h3>
 	<input type="hidden" name="value" value="on">
 	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Encender" />
 	{% else %}
-	<h2>La luz está encendida.</h2>
+	<h3>La luz está encendida.</h3>
 	<input type="hidden" name="value" value="off">
 	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Apagar" />
 	{% endif %}

@@ -22,8 +22,8 @@
 	{% endif %}
 {% endwith %}
 	<div class="jumbotron">
-		<h1>La casa de los juguetes</h1>
-		<p class="lead">A mi me gustan todas las casas, pero en especial la de los juguetes.</p>
+		<h1>Casatrón</h1>
+		<p class="lead">¿Qué se te ofrece?</p>
 <!--
         <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
 -->
@@ -34,13 +34,13 @@
 			<p>Temperatura en el salón de casa <span class="badge">{{temp1}}</span> &deg;C</p>
 
 			<p><a href="/multi"><button type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-clock-o"></i> Histórico</button></a></p>
-			<p>Histórico de temperaturas en el salón, con gráfica molona.</p>
+			<p>Histórico de temperaturas en el salón.</p>
 
 			<p><a href="/light"><button type="button" class="btn btn-lg btn-warning btn-block"><i class="fa fa-lightbulb-o"></i> Luces</button></a></p>
 			{% if s1 =='on' %}
-			<p>Luces e iluminación. La luz del salón está <span class='badge'>encendida</span>.</p>
+			<p>La luz del salón está <span class='badge'>encendida</span>.</p>
 			{% else %}
-			<p>Luces e iluminación. La luz del salón está <span class='badge'>apagada</span>.</p>
+			<p>La luz del salón está <span class='badge'>apagada</span>.</p>
 			{% endif %}
 			<p><a href="/pic"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-lightbulb-o"></i> Foto</button></a></p>
 			<p>Qué está pasando ahora mismo en el salón?</p>
@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<div class="footer">
-	<p>&copy; 2014</p>
+	<p>{{time}}</p>
 	</div>
 </div> <!-- /container -->
 {% endblock %}

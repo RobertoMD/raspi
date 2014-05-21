@@ -6,7 +6,7 @@ import datetime
 import shutil
 import util
 import RPi.GPIO as GPIO
-from flask import Flask,render_template,request,flash,session,redirect,url_for
+from flask import Flask,render_template,request,flash,session,redirect,url_for,g
 from util import authenticate, check_auth, requires_auth
 
 #Flask application
@@ -144,7 +144,7 @@ def pic():
 			src=os.getcwd()+'/static/img/still.jpg'
 			dst=os.getcwd()+'/static/img/h/still'+str(int(os.stat('index.py').st_ctime))+'.jpg'
 			shutil.copy(src,dst)
-			flash('Image saved.')
+			flash('Imagen guardada.')
 	# if arrived here directly
 	else:
 		util.takePicture()
