@@ -1,22 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
 
-<body>
+<body onLoad="$('.btn-group').button();">
+<form name='form' method='post' action='/conf'>
 	<div class="container">
 	<div class="jumbotron">
 		<h1>Configuración</h1>
 		<p class="lead">No toques!</p>
-		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a></p>
+		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home">&nbsp;</i>Inicio</a>
+<!--		<a class="btn btn-lg btn-danger" href="/" role="button"><i class="fa fa-gear"></i>&nbsp;Guardar</a></p> -->
+    <input type="submit" class="btn btn-lg btn-danger" role="button" name="save" value="Guardar" /></p>
 	</div>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-info">{{ message }}</div>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
 	<div class="row marketing">
 		<div class="col-md-4">
 			<h2>Cloud service</h2>
-			<p>Estado del proceso de envío de información de temperatura a <b>ThingSpeak.com</b>: <span class="badge">{{s1}}</span></p>
+			<p>Estado del proceso de envío de información de temperatura a <b>ThingSpeak.com</b>: <span class="badge">{{cloud}}</span></p>
+				<div class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default{{' active' if cloud=="on"}}"><input type="radio" name="cloud" value="on">On</label>
+					<label class="btn btn-default{{' active' if cloud=="off"}}"><input type="radio" name="cloud" value="off">Off</label>
+				</div>	
 		</div>
 		<div class="col-md-4">
-			<h2>Lorem ipsum</h2>
-			<p>De momento no hay nada más.</p>
+			<h2>Webcam</h2>
+			<p>Resolución de las fotos.</p>
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-default{{' active' if res=="358x288"}}"><input type="radio" name="res" value="358x288">358x288</label>
+				<label class="btn btn-default{{' active' if res=="640x480"}}"><input type="radio" name="res" value="640x480">640x480</label>
+				<label class="btn btn-default{{' active' if res=="1280x1024"}}"><input type="radio" name="res" value="1280x1024">1280x1024</label>
+			</div>
 		</div>
 	</div>
 </div> <!-- /container -->
+</form>
 {% endblock %}

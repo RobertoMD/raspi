@@ -1,35 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 <body>
-	<div class="container">
-<!--
-		<div class="header">
-		<ul class="nav nav-pills pull-right">
-			<li class="active"><a href="#">Home</a></li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Contact</a></li>
-		</ul>
-		<h3 class="text-muted">La casa de los juguetes</h3>
-		</div>
--->
-{% with messages = get_flashed_messages() %}
-	{% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-			<li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
-{% endwith %}
 	<div class="jumbotron">
-		<h1>Casatrón</h1>
-		<p class="lead">¿Qué se te ofrece?</p>
-<!--
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
--->
+		<div class="container">
+			<h1>Casita</h1>
+			<p class="lead">¿Qué se te ofrece?</p>
+		</div>
 	</div>
-	<div class="row marketing">
-        	<div class="col-lg-6">
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+	<div class="container">
+		<div class="row marketing">
+     	<div class="col-lg-6">
 			<p><a href="/temp"><button type="button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-home fa-fw"></i> Temperatura</button></a></p>
 			<p>Temperatura en el salón de casa <span class="badge">{{temp1}}</span> &deg;C</p>
 
@@ -38,20 +27,20 @@
 
 			<p><a href="/light"><button type="button" class="btn btn-lg btn-warning btn-block"><i class="fa fa-lightbulb-o"></i> Luces</button></a></p>
 			{% if s1 =='on' %}
-			<p>La luz del salón está <span class='badge'>encendida</span>.</p>
+			<p>La luz del salón está <span class='badge'>encendida</span>. Se apagó por última vez el {{loe}}</p>
 			{% else %}
-			<p>La luz del salón está <span class='badge'>apagada</span>.</p>
+			<p>La luz del salón está <span class='badge'>apagada</span> desde {{loe}}.</p>
 			{% endif %}
 			<p><a href="/pic"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-lightbulb-o"></i> Foto</button></a></p>
 			<p>Qué está pasando ahora mismo en el salón?</p>
-		</div>
+			</div>
 		<div class="col-lg-6">
 			<p><a href="/conf"><button type="button" class="btn btn-lg btn-success btn-block"><i class="fa fa-gear"></i> Configuración</button></a></p>
-			<p>Pues eso.</p>
+			<p>El envío de datos a TS está <span class="badge">{{cloud}}</span>.</p>
 		</div>
 	</div>
 	<div class="footer">
 	<p>{{time}}</p>
 	</div>
-</div> <!-- /container -->
+</div>
 {% endblock %}

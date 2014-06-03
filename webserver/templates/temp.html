@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 <body onLoad='setTSUrl();'>
-<!--<script language="JavaScript" src="{{url_for('static', filename='js/my.js')}}"></script> -->
 <script language="JavaScript">
 function setTSUrl(chart) {
 	var w,h;
-	w=window.innerWidth*0.9;
-	h=w/1.3;
+	//w=window.innerWidth*0.9;
+	w=document.documentElement.clientWidth*0.8;
+	h=w*0.5;
 	g1=document.getElementById('tsgraph1')
 	g1.src="http://api.thingspeak.com/channels/11489/charts/1?width="+w+"&height="+h+"&average=10&results=600&days=5&dynamic=false&xaxis=Fecha&title=Temperatura";
 	g1.width=w;
@@ -25,7 +25,9 @@ function setTSUrl(chart) {
         </div>
 	<h3>Salón 1: {{temp1}} &deg;C</h3>
 	<h3>Salón 2: {{temp2}} &deg;C</h3>
+	<center>
 	<iframe id="tsgraph1" width="450" height="450" src='#'></iframe>
 	<iframe id="tsgraph2" width="450" height="450" src='#'></iframe>
+	</center>
 </div>
 {% endblock %}

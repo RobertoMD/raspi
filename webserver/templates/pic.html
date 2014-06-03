@@ -6,7 +6,7 @@
 		<h1>Luces</h1>
 		<p class="lead">Quien anda ahí?</p>
 		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a>
-		<a class="btn btn-lg btn-default" href="/picdb" role="button"><i class="fa fa-history"></i>&nbsp;Archivo</a></p>
+		<a class="btn btn-lg btn-default" href="/picdb" role="button"><i class="fa fa-save"></i>&nbsp;Archivo</a></p>
 	</div>
 {% with messages = get_flashed_messages() %}
 	{% if messages %}
@@ -16,22 +16,14 @@
 	{% endif %}
 {% endwith %}
 	<form name='form' method='post' action='/pic'>
-	<input type="hidden" name="action" value="pic" />
 	<div class="row">
-		<div class="col-sm-6 col-md-4">
-			<div class="thumbnail">
-				<img src="{{url_for('static',filename='img/still.jpg')}}?{{range(1000)|random()}}" class="img-thumbnail" alt="Foto. Si estás leyendo esto, mal asunto" />
-				<div class="caption">
-					<p>Qué está pasando ahora</p>
-					<p><input type="submit" class="btn btn-sm btn-primary" role="button" value="Actualizar" /></p>
-	</form>
-	<form name='form-save' method='post' action='/pic'>
-		<input type="hidden" name="action" value="save" />
-		<p><input type="submit" class="btn btn-sm btn-danger" role="button" value="Guardar" /></p>
-	</form>
-				</div>
+		<div class="thumbnail">
+			<img src="{{url_for('static',filename='img/still.jpg')}}?{{range(1000)|random()}}" class="img-thumbnail" alt="Foto. Si estás leyendo esto, mal asunto" />
+				<div class="caption" align="center">
+					<input type="submit" class="btn btn-sm btn-primary" role="button" name="update" value="Actualizar" />
+					<input type="submit" class="btn btn-sm btn-danger" role="button" name="save" value="Guardar" />
+				<div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}

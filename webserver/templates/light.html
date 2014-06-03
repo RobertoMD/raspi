@@ -2,21 +2,30 @@
 {% block content %}
 <body>
 <div class="container">
-        <div class="jumbotron">
-                <h1>Luces</h1>
-                <p class="lead">Apaga la luz que gasta!</p>
-                <p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a></p>
-        </div>
+	<div class="jumbotron">
+		<h1>Luces</h1>
+		<p class="lead">Apaga la luz que gasta!</p>
+		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home"></i>&nbsp;Inicio</a></p>
+	</div>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<h3>{{ message }}</h3>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
 	<form method="POST" action="/light">
 	<input type="hidden" name="line" value="R1LINE">
 	{% if s1 == 'off' %}
 	<h3>La luz está apagada.</h3>
+	<p>Se apagó por última vez hace {{lastoff}}. Estamos a {{time}}.</p>
 	<input type="hidden" name="value" value="on">
 	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Encender" />
 	{% else %}
 	<h3>La luz está encendida.</h3>
+	<p>Se apagó por última vez hace {{lastoff}}. Estamos a {{time}}.</p>
 	<input type="hidden" name="value" value="off">
-	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Apagar" />
+	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Apager" />
 	{% endif %}
 	</form>
 </div>
