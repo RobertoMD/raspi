@@ -5,6 +5,8 @@ import subprocess
 import RPi.GPIO as GPIO
 import config
 import sqlite3
+# pressure sensor, needs I2C.py
+import bmp180
 from functools import wraps
 from flask import request,Response,g
 
@@ -58,6 +60,11 @@ def getTemperature(sensor):
 		if lines is None:
 			return None
 	return float(lines[1].split('=')[1])/1000.
+
+#----------------------------------------------------------------
+def getPressure():
+	p=bmp180.BMP180()
+	return p.read_pressure()/100
 
 #----------------------------------------------------------------
 def getLight(line):

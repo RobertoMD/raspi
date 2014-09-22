@@ -35,6 +35,8 @@ def index():
 	# temperature
 	fTemp1=util.getTemperature(0)
 	temp1="%2.1f" % fTemp1
+	# pressure
+	p1=util.getPressure()
 	# light
 	s1=util.getLight(config.LINES['R1LINE'])
 	# last time the ligth was switched off
@@ -45,6 +47,7 @@ def index():
 		loe=lastoff
 	tData={
 		'temp1':temp1,
+		'pres1':p1,
 		's1':s1,
 		'time':now,
 		'loe':loe,
@@ -66,6 +69,7 @@ def test():
 def temp():
 	fTemp1=util.getTemperature(0)
 	fTemp2=util.getTemperature(1)
+	p=util.getPressure()
 	if fTemp1 is None or fTemp2 is None:
 		return render_template('no-w1.html')
 	else:
@@ -75,9 +79,10 @@ def temp():
 		tData={
 			'temp1':temp1,
 			'temp2':temp2,
+			'pres1':p,
 			'time':now
 		}
-		return render_template('temp.html',**tData)
+	return render_template('temp.html',**tData)
 
 #----------------------------------------------------------------
 @app.route("/conf", methods=['GET','POST'])
