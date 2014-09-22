@@ -1,9 +1,10 @@
-#read DS18B20device
 import os
 import time
+import bmp180
 from functools import wraps
 from flask import request, Response
 
+#read DS18B20device
 DEVPATH='/sys/bus/w1/devices/'
 DEVICES=['28-000003c63391','28-000003be20b5']
 
@@ -30,6 +31,12 @@ def getTemperature(sensor):
 		if lines is None:
 			return None
 	return float(lines[1].split('=')[1])/1000.
+
+#BMP180 Pressure read
+def getPressure():
+	sensor=bmp180.BMP180()
+	mb=sensor.read_pressure()/100
+	return mb
 
 #AUTH functions
 def check_auth(username,password):

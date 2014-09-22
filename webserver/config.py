@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+WS_HOME='/home/pi/webserver'
 LABEL_TEMP1 = u'Salón'
 LABEL_TEMP2 = u'Salón2'
 # Lines (relays) list
@@ -12,7 +13,7 @@ DEVPATH='/sys/bus/w1/devices/'
 TEMP_SENSORS=['28-000003c63391','28-000003be20b5']
 TEMP_ALIAS=[u'Salón 1',u'Salón 2']
 #Database
-DATABASE=os.getcwd()+'/casatron.db'
+DATABASE=WS_HOME+'/casatron.db'
 USERNAME='admin'
 PASSWORD='nimda'
 SECRET_KEY='mj)=89=Ji9mjI)Njij$$'
@@ -21,3 +22,4 @@ DATEFORMAT='%d %b %H:%M'
 DBDATEFORMAT='%Y-%m-%d %H:%M:%S'
 DB_LIGHTSOFF='lights.off.timestamp'
 DB_WEBCAMRES='webcam.resolution'
+DB_LASTACCESS='last.remote.access'

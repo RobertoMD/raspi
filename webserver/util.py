@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import os
-import time
+import time,datetime
 import subprocess
 import RPi.GPIO as GPIO
 import config
@@ -41,7 +41,7 @@ def prettydelta(delta):
 		r=r+("%d minutos " % m)
 	r=r+("%d segundos" %s)
 	return r
-	
+
 #----------------------------------------------------------------
 # Sensors, cameras
 #----------------------------------------------------------------

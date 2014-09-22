@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import os
-import sys
+import sys,socket
 import time
 import datetime
 import shutil
@@ -55,7 +55,10 @@ def index():
 #----------------------------------------------------------------
 @app.route("/test")
 def test():
-	return render_template('test.html')
+	tData={}
+	if request.remote_addr:
+		tData={ 'remote':request.remote_addr,'agent':request.user_agent }
+	return render_template('test.html',**tData)
 
 #----------------------------------------------------------------
 @app.route("/temp")
@@ -100,10 +103,21 @@ def conf():
 		flash('Settings saved')
 	else:
 		res=util.nvl(util.db_getvalue(config.DB_WEBCAMRES),'640x480')
+
+	db=util.db_get()
+	with db:
+		c=db.cursor()
+		q="SELECT * FROM ACCESS ORDER BY DATETIME DESC LIMIT 100"
+		c.execute(q)
+		rows=c.fetchall()
+		log=''
+		for row in rows:
+			log=log+row[0]+';'+row[1]+';'+row[2]+';'+row[3]+';'+row[4]+'\n'
 	tData={
 		'cloud':cloud,
 		'res':res,
-		'time':now
+		'time':now,
+		'log':log
 	}
 	return render_template('conf.html',**tData)
 
@@ -196,6 +210,26 @@ def pic():
 	return render_template('pic.html',**tData)
 
 #----------------------------------------------------------------
+@app.before_request
+def before_request():
+	if not request.path.startswith('/static'):
+		now=datetime.datetime.now().strftime(config.DBDATEFORMAT)
+		try:
+			a=request.remote_addr
+		except:
+			a='Unknown'
+		try:
+			host=str(socket.gethostbyaddr(request.remote_addr)[0])
+		except:
+			host='Unknown'
+		db=util.db_get()
+		with db:
+			c=db.cursor()
+			q="INSERT INTO ACCESS VALUES (?,?,?,?,?)"
+			r=request.method+' '+request.path
+			c.execute(q,(now,a,host,r,repr(request.user_agent)))
+		return
+
+#----------------------------------------------------------------
 if __name__=="__main__":
 	app.run(host='0.0.0.0',port=80,debug=True)
-
