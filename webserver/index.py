@@ -151,10 +151,19 @@ def light():
 			return redirect(url_for('/'))
 		s=True if value=='on' else False
 		if "Apagar15" in request.form:
-			time.sleep(15)
-		if "Apagar60" in request.form:
-			time.sleep(60)
-		util.setLight(config.LINES[line],s)
+			cpid=os.fork()
+			if cpid==0:
+				time.sleep(15)
+				util.setLight(config.LINES[line],s)
+				sys.exit()
+		elif "Apagar60" in request.form:
+			cpid=os.fork()
+			if cpid==0:
+				time.sleep(60)
+				util.setLight(config.LINES[line],s)
+				sys.exit()
+		else:
+			util.setLight(config.LINES[line],s)
 		# write switch off event to db
 		if not s:
 			util.db_setvalue(config.DB_LIGHTSOFF,now.strftime(config.DBDATEFORMAT))
