@@ -150,6 +150,10 @@ def light():
 			flash('Internal error. No lights changed.')
 			return redirect(url_for('/'))
 		s=True if value=='on' else False
+		if "Apagar15" in request.form:
+			time.sleep(15)
+		if "Apagar60" in request.form:
+			time.sleep(60)
 		util.setLight(config.LINES[line],s)
 		# write switch off event to db
 		if not s:

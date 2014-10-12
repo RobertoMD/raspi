@@ -25,8 +25,11 @@
 	<h3>La luz está encendida.</h3>
 	<p>Se apagó por última vez hace {{lastoff}}. Estamos a {{time}}.</p>
 	<input type="hidden" name="value" value="off">
-	<input type="submit" class="btn btn-sm btn-danger" role="button" value="Apagar" />
+	<input type="submit" class="btn btn-sm btn-danger" name="Apagar" role="button" value="Apagar" />
+	<input type="submit" class="btn btn-sm btn-danger" name="Apagar15" role="button" value="Apagar en 15s" />
+	<input type="submit" class="btn btn-sm btn-danger" name="Apagar60" role="button" value="Apagar en 60s" />
 	{% endif %}
 	</form>
+	<div>&nbsp;&nbsp;</div>
 </div>
 {% endblock %}
