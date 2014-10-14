@@ -44,8 +44,9 @@
 					textStyle: {fontSize: '12'}
 				},
 				series: {
-					0: {color:'#218376'},
-					1: {color:'#F00'}
+					0: {color:'#EEEEEE'},
+					1: {color:'#B53D1B'},
+					2: {color:'#2F5665'}
 				},
 				legend: { position: 'none' }
 			};
@@ -56,13 +57,29 @@
 			var tdata2=new google.visualization.DataTable();
 			tdata2.addColumn('datetime','Fecha');
 			tdata2.addColumn('number','Presión');
+			tdata2.addColumn('number','Presion2');
 			
+			var o=7;
+			var m=[];
+			var s=0;
+			var i=0;
 			$.getJSON('https://api.thingspeak.com/channels/11489/feed.json?results=1000',function(data){
 				$.each(data.feeds,function(k,v) {
 				//console.log([toDate(v['created_at']),parseFloat(v['field1'])]);
 				d=v['created_at'];
 				tdata1.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field1']),parseFloat(v['field2'])]);
-				tdata2.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field3'])]);
+				m[i%o]=parseFloat(v['field3']);	
+				if (i>o) {
+					s=0;
+					$.each(m,function(t,val){
+						s=s+val;
+					});
+					avg=s/o;
+				} else {
+					avg=m[i%o];
+				};
+				i++;
+				tdata2.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field3']),avg]);
 			});
 			var chart1=new google.visualization.LineChart(document.getElementById('chart1'));
 			chart1.draw(tdata1, opt1);

@@ -155,13 +155,15 @@ def light():
 			if cpid==0:
 				time.sleep(15)
 				util.setLight(config.LINES[line],s)
-				sys.exit()
+				shutdown=request.environ.get('werkzeug.server.shutdown')
+				shutdown()
 		elif "Apagar60" in request.form:
 			cpid=os.fork()
 			if cpid==0:
 				time.sleep(60)
 				util.setLight(config.LINES[line],s)
-				sys.exit()
+				shutdown=request.environ.get('werkzeug.server.shutdown')
+				shutdown()
 		else:
 			util.setLight(config.LINES[line],s)
 		# write switch off event to db
