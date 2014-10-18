@@ -69,16 +69,19 @@ def test():
 def temp():
 	fTemp1=util.getTemperature(0)
 	fTemp2=util.getTemperature(1)
+	fTemp3=util.getTemperature(2)
 	p=util.getPressure()
-	if fTemp1 is None or fTemp2 is None:
+	if fTemp1 is None or fTemp2 is None or fTemp3 is None:
 		return render_template('no-w1.html')
 	else:
 		now=datetime.datetime.now().strftime(config.DATEFORMAT)
 		temp1="%2.1f" % fTemp1
 		temp2="%2.1f" % fTemp2
+		temp3="%2.1f" % fTemp3
 		tData={
 			'temp1':temp1,
 			'temp2':temp2,
+			'temp3':temp3,
 			'pres1':p,
 			'time':now
 		}

@@ -6,7 +6,7 @@ from flask import request, Response
 
 #read DS18B20device
 DEVPATH='/sys/bus/w1/devices/'
-DEVICES=['28-000003c63391','28-000003be20b5']
+DEVICES=['28-000003c63391','28-000003be20b5','28-000003be1727']
 
 def getContent(file):
 	if not os.path.exists(file):

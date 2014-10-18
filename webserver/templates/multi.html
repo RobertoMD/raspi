@@ -30,6 +30,26 @@
 				},
 				legend: { position: 'none' }
 			};
+			var optr = {	title: 'Radiador', fontName: 'Roboto',
+				hAxis: {
+					showTextEvery: 1,
+					format: 'd/M H',
+					gridlines: {color: '#ccc', count: 10 },
+					minorGridlines: { color: '#eee', count:1 },
+					textStyle: {fontSize: '12'}
+				},
+				vAxis: {
+					gridlines: {color: '#ccc', count: 10 },
+					minorGridlines: { color: '#eee', count:1 },
+					showTextEvery: 1,
+					textStyle: {fontSize: '12'}
+				},
+				series: {
+					0: {color:'#B53D1B'},
+					1: {color:'#2F5665'}
+				},
+				legend: { position: 'none' }
+			};
 			var opt2 = {	title: 'Presión', fontName: 'Roboto',
 				hAxis: {
 					shotTextEvery: 1,
@@ -54,20 +74,27 @@
 			tdata1.addColumn('datetime','Fecha');
 			tdata1.addColumn('number','temp1');
 			tdata1.addColumn('number','temp2');
+			var tdatar=new google.visualization.DataTable();
+			tdatar.addColumn('datetime','Fecha');
+			tdatar.addColumn('number','Temp.Radiador');
 			var tdata2=new google.visualization.DataTable();
 			tdata2.addColumn('datetime','Fecha');
 			tdata2.addColumn('number','Presión');
 			tdata2.addColumn('number','Presion2');
 			
+			// parameters for moving average (last 7 points)
 			var o=7;
 			var m=[];
 			var s=0;
 			var i=0;
+			// get JSON data for 1000 last points
 			$.getJSON('https://api.thingspeak.com/channels/11489/feed.json?results=1000',function(data){
 				$.each(data.feeds,function(k,v) {
 				//console.log([toDate(v['created_at']),parseFloat(v['field1'])]);
 				d=v['created_at'];
+				// add data point 
 				tdata1.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field1']),parseFloat(v['field2'])]);
+				// this is for pressure moving average
 				m[i%o]=parseFloat(v['field3']);	
 				if (i>o) {
 					s=0;
@@ -79,10 +106,15 @@
 					avg=m[i%o];
 				};
 				i++;
+				// add data for pressure
 				tdata2.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field3']),avg]);
+				// add data for heater
+				tdatar.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field4'])]);
 			});
 			var chart1=new google.visualization.LineChart(document.getElementById('chart1'));
 			chart1.draw(tdata1, opt1);
+			var chartr=new google.visualization.LineChart(document.getElementById('chartr'));
+			chartr.draw(tdatar, optr);
 			var chart2=new google.visualization.LineChart(document.getElementById('chart2'));
 			chart2.draw(tdata2, opt2);
 		});
@@ -93,6 +125,7 @@
 	</head>
   <body>
     <div id="chart1" style="width: 100%; height: 50%;"></div><br>
+    <div id="chartr" style="width: 100%; height: 50%;"></div><br>
     <div id="chart2" style="width: 100%; height: 50%;"></div><br>
   </body>
 </html>

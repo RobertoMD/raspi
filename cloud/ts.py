@@ -9,8 +9,9 @@ def sendData():
 	try:
 		temp1=util.getTemperature(0)
 		temp2=util.getTemperature(1)
+		temp3=util.getTemperature(2)
 		pressure=util.getPressure()
-		params = urllib.urlencode({'field1': temp1, 'field2': temp2, 'field3': pressure, 'key':'M3WA24ZHF4KDYM56'})
+		params = urllib.urlencode({'field1': temp1, 'field2': temp2, 'field3': pressure, 'field4': temp3, 'key':'M3WA24ZHF4KDYM56'})
 		headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
 		conn = httplib.HTTPConnection("api.thingspeak.com:80")
 		conn.request("POST", "/update", params, headers)
@@ -26,10 +27,12 @@ if __name__ == "__main__":
 	# start checks - print data at startup
 	temp1=util.getTemperature(0)
 	temp2=util.getTemperature(1)
+	temp3=util.getTemperature(2)
 	pressure=util.getPressure()
-	params = urllib.urlencode({'field1': temp1, 'field2': temp2, 'field3': pressure, 'key':'M3WA24ZHF4KDYM56'})
+	params = urllib.urlencode({'field1': temp1, 'field2': temp2, 'field3': pressure, 'field4': temp3, 'key':'M3WA24ZHF4KDYM56'})
 	print temp1," degrees"
 	print temp2," degrees"
+	print temp3," degrees"
 	print pressure, " mbar"
 	print params
 	# end checks

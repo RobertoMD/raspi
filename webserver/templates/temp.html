@@ -19,6 +19,10 @@ function setTSUrl(chart) {
 	g3.src="http://api.thingspeak.com/channels/11489/charts/3?width="+w+"&height="+h+"&days=5&dynamic=false&xaxis=Fecha&title=Presion";
 	g3.width=w;
 	g3.height=h;
+	g4=document.getElementById('tsgraph4')
+	g4.src="http://api.thingspeak.com/channels/11489/charts/4?width="+w+"&height="+h+"&days=5&dynamic=false&xaxis=Fecha&title=Temp. Radiador";
+	g4.width=w;
+	g4.height=h;
 }
 </script>
 <div class="container">
@@ -29,10 +33,12 @@ function setTSUrl(chart) {
         </div>
 	<h3>Salón 1: {{temp1}} &deg;C</h3>
 	<h3>Salón 2: {{temp2}} &deg;C</h3>
+	<h3>Radiador: {{temp3}} &deg;C</h3>
 	<h3>Presión: {{pres1}} mbar</h3>
 	<center>
 	<iframe id="tsgraph1" width="450" height="450" src='#'></iframe>
 	<iframe id="tsgraph3" width="450" height="450" src='#'></iframe>
+	<iframe id="tsgraph4" width="450" height="450" src='#'></iframe>
 	<iframe id="tsgraph2" width="450" height="450" src='#'></iframe>
 	</center>
 </div>
