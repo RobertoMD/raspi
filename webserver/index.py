@@ -8,6 +8,7 @@ import subprocess
 import util
 import RPi.GPIO as GPIO
 import config
+import bmp180 # just for status()
 from flask import Flask,render_template,request,flash,session,redirect,url_for,g
 from util import authenticate, check_auth, requires_auth
 
@@ -56,9 +57,38 @@ def index():
 	return render_template('index.html',**tData)
 
 #----------------------------------------------------------------
+@app.route("/s")
+def status():
+	tData={}
+	ts=[]
+	sw=[]
+	pr=[]
+	for i,f in enumerate(config.TEMP_SENSORS):
+		t=util.getTemperature(i)
+		s='N/A' if t is None else "%2.1f" % t
+		ts.append([f,config.TEMP_ALIAS[i],s])
+	for i in config.LINES.items():
+		t=util.nvl(util.getLight(i[1]),'N/A')
+		sw.append([i[0],i[1],t])
+	p1=bmp180.BMP180()
+	if p1._device._address:
+		px="0x%x" % p1._device._address
+	p2=util.nvl(util.getPressure(),'N/A')
+	pr.append(['Presion',px,p2])
+	tData={
+		'ts':ts,
+		'sw':sw,
+		'pr':pr
+	}
+	return render_template('s.html',**tData)
+
+#----------------------------------------------------------------
 @app.route("/test")
 def test():
 	tData={}
+	fTemp1=util.getTemperature(0)
+	fTemp2=util.getTemperature(1)
+	fTemp3=util.getTemperature(2)
 	if request.remote_addr:
 		tData={ 'remote':request.remote_addr,'agent':request.user_agent }
 	return render_template('test.html',**tData)
@@ -67,24 +97,29 @@ def test():
 @app.route("/temp")
 @requires_auth
 def temp():
-	fTemp1=util.getTemperature(0)
-	fTemp2=util.getTemperature(1)
-	fTemp3=util.getTemperature(2)
-	p=util.getPressure()
-	if fTemp1 is None or fTemp2 is None or fTemp3 is None:
-		return render_template('no-w1.html')
-	else:
-		now=datetime.datetime.now().strftime(config.DATEFORMAT)
-		temp1="%2.1f" % fTemp1
-		temp2="%2.1f" % fTemp2
-		temp3="%2.1f" % fTemp3
-		tData={
-			'temp1':temp1,
-			'temp2':temp2,
-			'temp3':temp3,
-			'pres1':p,
-			'time':now
-		}
+	tData={}
+	ts=[]
+	sw=[]
+	pr=[]
+	for i,f in enumerate(config.TEMP_SENSORS):
+		t=util.getTemperature(i)
+		s='N/A' if t is None else "%2.1f" % t
+		# [index, alias, value]
+		ts.append([f,config.TEMP_ALIAS[i],s])
+	for i in config.LINES.items():
+		t=util.nvl(util.getLight(i[1]),'N/A')
+		sw.append([i[0],i[1],t])
+	p1=bmp180.BMP180()
+	if p1._device._address:
+		px="0x%x" % p1._device._address
+	p2=util.nvl(util.getPressure(),'N/A')
+	# [alias, address, pressure]
+	pr.append(['Presion',px,p2])
+	tData={
+		'ts':ts,
+		'sw':sw,
+		'pr':pr
+	}
 	return render_template('temp.html',**tData)
 
 #----------------------------------------------------------------
