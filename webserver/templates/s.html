@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form name='form' method='post' action='/conf'>
+	<div class="container">
+	<div class="jumbotron">
+		<h1>Estado</h1>
+		<p class="lead">A ver...</p>
+		<p><a class="btn btn-lg btn-success" href="/" role="button"><i class="fa fa-home">&nbsp;</i>Inicio</a>
+	</div>
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-info">{{ message }}</div>
+		{% endfor %}
+	{% endif %}
+{% endwith %}
+	<div class="row marketing">
+		<div class="col-md-4">
+			<h2>Sensores 1-wire</h2>
+			{% for s in ts %}
+			<p>{{s[0]}} - {{s[1]}} - {{s[2]}} </p>
+			{% endfor %}
+		</div>
+		<div class="col-md-4">
+			<h2>Sensores I2C</h2>
+			{% for s in pr %}
+			<p>{{s[0]}} - {{s[1]}} - {{s[2]}} </p>
+			{% endfor %}
+		</div>
+		<div class="col-md-4">
+			<h2>Actuadores</h2>
+			{% for s in sw %}
+			<p>{{s[0]}} - {{s[1]}} - {{s[2]}} </p>
+			{% endfor %}
+		</div>
+	</div>
+	<div><br><br></div>
+</div> <!-- /container -->
+</form>
+{% endblock %}
