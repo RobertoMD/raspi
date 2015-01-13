@@ -165,11 +165,25 @@ def conf():
 	return render_template('conf.html',**tData)
 
 #----------------------------------------------------------------
-@app.route("/multi")
+@app.route("/multi", methods=['GET','POST'])
 @requires_auth
 def multi():
-	return render_template('multi.html')
-
+	# if arrived here by submitting the form
+	if request.method == 'POST':
+		if "1d" in request.form:
+			points="150"
+		elif "3d" in request.form:
+			points="450"
+		elif "7d" in request.form:
+			points="1010"
+		else:
+			points="450"
+	else:
+		points="450"
+	tData={
+		'points':points
+	}
+	return render_template('multi.html',**tData)
 
 #----------------------------------------------------------------
 @app.route("/light", methods=['GET','POST'])
