@@ -113,8 +113,10 @@
 				i++;
 				// add data for pressure
 				tdata2.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field3']),avg]);
-				// add data for heater
-				tdatar.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field4'])]);
+				// add data for heater, avoid bad readings (very low values under 0)
+				if (parseFloat(v['field4'])>0.0) {
+					tdatar.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field4'])]);
+				};
 			});
 			var chart1=new google.visualization.LineChart(document.getElementById('chart1'));
 			chart1.draw(tdata1, opt1);
