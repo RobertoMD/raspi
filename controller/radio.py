@@ -42,6 +42,20 @@ class radio(NRF24):
 		self.radio.printDetails()
 
 #------------------------------------------------
+	def commands(self):
+		print "ping: P"
+		print "temp: T"
+		print "rand: R"
+		print "verbose: V"
+		print "channel: C"
+
+#------------------------------------------------
+	def clear(self):
+		# enter standby mode (?)
+		self.radio.startListening()
+		self.radio.stopListening()
+
+#------------------------------------------------
 	def printDetails(self):
 		self.radio.printDetails()
 #------------------------------------------------
@@ -61,11 +75,34 @@ class radio(NRF24):
 		else:
 			return None
 #------------------------------------------------
-	def getTemp(self):
+	def command(self,msg):
+		self.clear()
+		r=0
+		while r==0:
+			r=self.send(msg)
+			if r==0:
+				time.sleep(1)
+		r=None
+		while r is None:
+			r=self.recv()
+		return r
+
+#------------------------------------------------
+	def getTemp(self,retries=3):
+		self.clear()
 		rc=None
-		if (self.send('T') == 32):
-			time.sleep(2)
-			rc=self.recv()
-			if rc is not None:
-				rc=float(rc.split(';')[3])
-		return rc
+		good=False
+		attempt=0
+		while not good and attempt<3:
+			if self.send('T') == 32:
+				time.sleep(2)
+				rc=self.recv()
+				if rc is not None:
+					rc=float(rc.split(';')[3])
+					good=True
+				else:
+					attempt+=1
+		if good:
+			return rc
+		else:
+			return None

@@ -2,7 +2,6 @@ import os
 import time
 import bmp180
 from functools import wraps
-from flask import request, Response
 
 #read DS18B20device
 DEVPATH='/sys/bus/w1/devices/'
@@ -12,9 +11,9 @@ def getContent(file):
 	if not os.path.exists(file):
 		return None
 	try:
-        	f=open(file,'r')
-        	lines=f.readlines()
-        	f.close()
+		f=open(file,'r')
+		lines=f.readlines()
+		f.close()
 	except:
 		return None
 	return lines
@@ -26,7 +25,7 @@ def getTemperature(sensor):
 	if lines is None:
 		return None
 	while lines[0].strip()[-3:] != 'YES':
-        	time.sleep(0.4)
+		time.sleep(0.4)
 		lines=getContent(file)
 		if lines is None:
 			return None
@@ -38,19 +37,4 @@ def getPressure():
 	mb=sensor.read_pressure()/100
 	return mb
 
-#AUTH functions
-def check_auth(username,password):
-	return password=='1196'
-
-def authenticate():
-	return Response('Sin acceso.\nConectate comme il faut',401,{'WWW-Authenticate': 'Basic realm="Se requiere clave"'})
-
-def requires_auth(f):
-	@wraps(f)
-	def decorated(*args, **kwargs):
-		auth = request.authorization
-		if not auth or not check_auth(auth.username, auth.password):
-			return authenticate()
-		return f(*args, **kwargs)
-	return decorated
 

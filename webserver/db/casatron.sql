@@ -13,3 +13,9 @@ create table access (
 	request text,
 	useragent text
 );
+create table readings (
+	id number primary key,
+	description text,
+	date text,
+	value float
+);

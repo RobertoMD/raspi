@@ -15,6 +15,7 @@
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
+			<!-- temperaturas interiores -->
 			var opt1 = {	title: 'Temperatura', fontName: 'Roboto',
 				hAxis: {
 					showTextEvery: 1,
@@ -35,7 +36,8 @@
 				},
 				legend: { position: 'none' }
 			};
-			var optr = {	title: 'Radiador', fontName: 'Roboto',
+			<!-- temperatura radiador -->
+			var opt3 = {	title: 'Radiador', fontName: 'Roboto',
 				hAxis: {
 					showTextEvery: 1,
 					format: 'd/M H',
@@ -55,6 +57,28 @@
 				},
 				legend: { position: 'none' }
 			};
+			<!-- temperatura exterior -->
+			var opt4 = {	title: 'Exterior', fontName: 'Roboto',
+				hAxis: {
+					showTextEvery: 1,
+					format: 'd/M H',
+					gridlines: {color: '#ccc', count: 10 },
+					minorGridlines: { color: '#eee', count:1 },
+					textStyle: {fontSize: '12'}
+				},
+				vAxis: {
+					gridlines: {color: '#ccc', count: 10 },
+					minorGridlines: { color: '#eee', count:1 },
+					showTextEvery: 1,
+					textStyle: {fontSize: '12'}
+				},
+				series: {
+					0: {color:'#B53D1B'},
+					1: {color:'#2F5665'}
+				},
+				legend: { position: 'none' }
+			};
+			<!-- presión -->
 			var opt2 = {	title: 'Presión', fontName: 'Roboto',
 				hAxis: {
 					shotTextEvery: 1,
@@ -79,15 +103,18 @@
 			tdata1.addColumn('datetime','Fecha');
 			tdata1.addColumn('number','temp1');
 			tdata1.addColumn('number','temp2');
-			var tdatar=new google.visualization.DataTable();
-			tdatar.addColumn('datetime','Fecha');
-			tdatar.addColumn('number','Temp.Radiador');
+			var tdata3=new google.visualization.DataTable();
+			tdata3.addColumn('datetime','Fecha');
+			tdata3.addColumn('number','Temp.Radiador');
+			var tdata4=new google.visualization.DataTable();
+			tdata4.addColumn('datetime','Fecha');
+			tdata4.addColumn('number','Temp.exterior');
 			var tdata2=new google.visualization.DataTable();
 			tdata2.addColumn('datetime','Fecha');
 			tdata2.addColumn('number','Presión');
 			tdata2.addColumn('number','Presion2');
 			
-			// parameters for moving average (last 7 points)
+			// parameters for moving average on pressure (last 7 points)
 			var o=7;
 			var m=[];
 			var s=0;
@@ -115,13 +142,16 @@
 				tdata2.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field3']),avg]);
 				// add data for heater, avoid bad readings (very low values under 0)
 				if (parseFloat(v['field4'])>0.0) {
-					tdatar.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field4'])]);
+					tdata3.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field4'])]);
 				};
+				tdata4.addRow([new Date(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)),parseFloat(v['field5'])]);
 			});
 			var chart1=new google.visualization.LineChart(document.getElementById('chart1'));
 			chart1.draw(tdata1, opt1);
-			var chartr=new google.visualization.LineChart(document.getElementById('chartr'));
-			chartr.draw(tdatar, optr);
+			var chart3=new google.visualization.LineChart(document.getElementById('chart3'));
+			chart3.draw(tdata3, opt3);
+			var chart4=new google.visualization.LineChart(document.getElementById('chart4'));
+			chart4.draw(tdata4, opt4);
 			var chart2=new google.visualization.LineChart(document.getElementById('chart2'));
 			chart2.draw(tdata2, opt2);
 		});
@@ -140,7 +170,8 @@
 		</div>
 		</form>
 		<div id="chart1" style="width: 100%; height: 50%;"></div><br>
-		<div id="chartr" style="width: 100%; height: 50%;"></div><br>
+		<div id="chart3" style="width: 100%; height: 50%;"></div><br>
+		<div id="chart4" style="width: 100%; height: 50%;"></div><br>
 		<div id="chart2" style="width: 100%; height: 50%;"></div><br>
 	</div>
   </body>
