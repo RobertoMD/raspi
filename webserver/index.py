@@ -8,6 +8,7 @@ import subprocess
 import util
 import RPi.GPIO as GPIO
 import config
+import radio
 import bmp180 # just for status()
 from flask import Flask,render_template,request,flash,session,redirect,url_for,g
 from util import authenticate, check_auth, requires_auth
@@ -36,6 +37,10 @@ def index():
 	# temperature
 	fTemp1=util.getTemperature(0)
 	temp1="%2.1f" % fTemp1
+	# external temp
+	r=radio.radio()	
+	t=r.getTemp(2)
+	text='N/A' if t is None else "%2.1f" % t
 	# pressure
 	p1=util.getPressure()
 	# light
@@ -48,6 +53,7 @@ def index():
 		loe=lastoff
 	tData={
 		'temp1':temp1,
+		'text':text,
 		'pres1':p1,
 		's1':s1,
 		'time':now,
@@ -63,10 +69,16 @@ def status():
 	ts=[]
 	sw=[]
 	pr=[]
+	# internal temp
 	for i,f in enumerate(config.TEMP_SENSORS):
 		t=util.getTemperature(i)
 		s='N/A' if t is None else "%2.1f" % t
 		ts.append([f,config.TEMP_ALIAS[i],s])
+	# external temp
+	r=radio.radio()	
+	t=r.getTemp(2)
+	s='N/A' if t is None else "%2.1f" % t
+	ts.append(['nrf24l01+','Exterior',s])
 	for i in config.LINES.items():
 		t=util.nvl(util.getLight(i[1]),'N/A')
 		sw.append([i[0],i[1],t])
@@ -86,9 +98,13 @@ def status():
 @app.route("/test")
 def test():
 	tData={}
-	fTemp1=util.getTemperature(0)
-	fTemp2=util.getTemperature(1)
-	fTemp3=util.getTemperature(2)
+	#fTemp1=util.getTemperature(0)
+	#fTemp2=util.getTemperature(1)
+	#fTemp3=util.getTemperature(2)
+	# external temp
+	#r=radio.radio()	
+	#t=r.getTemp(2)
+	#s='N/A' if t is None else "%2.1f" % t
 	if request.remote_addr:
 		tData={ 'remote':request.remote_addr,'agent':request.user_agent }
 	return render_template('test.html',**tData)
@@ -101,14 +117,22 @@ def temp():
 	ts=[]
 	sw=[]
 	pr=[]
+	# internal temp
 	for i,f in enumerate(config.TEMP_SENSORS):
 		t=util.getTemperature(i)
 		s='N/A' if t is None else "%2.1f" % t
 		# [index, alias, value]
 		ts.append([f,config.TEMP_ALIAS[i],s])
+	# external temp
+	r=radio.radio()	
+	t=r.getTemp(2)
+	s='N/A' if t is None else "%2.1f" % t
+	ts.append([3,'Exterior',s])
+	# relays
 	for i in config.LINES.items():
 		t=util.nvl(util.getLight(i[1]),'N/A')
 		sw.append([i[0],i[1],t])
+	# pressure
 	p1=bmp180.BMP180()
 	if p1._device._address:
 		px="0x%x" % p1._device._address
@@ -118,7 +142,7 @@ def temp():
 	tData={
 		'ts':ts,
 		'sw':sw,
-		'pr':pr
+		'pr':pr,
 	}
 	return render_template('temp.html',**tData)
 
